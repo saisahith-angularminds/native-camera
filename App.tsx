@@ -26,7 +26,7 @@ import {
   LearnMoreLinks,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
-import { Navigaton } from './Navigation';
+import { Navigation } from './src/Navigation';
 
 
 
@@ -35,7 +35,7 @@ function App(): JSX.Element {
 
   return (<>
    
-      <Navigaton/>
+      <Navigation/>
      
     </>
   );
