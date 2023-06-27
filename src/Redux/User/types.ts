@@ -1,0 +1,2 @@
+export const AUTH_LOGIN="AUTH_LOGIN"
+export const GOOGLE_AUTH_LOGIN="GOOGLE_AUTH_LOGIN"

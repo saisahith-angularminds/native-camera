@@ -116,10 +116,10 @@ android {
         }
     }
     signingConfigs {
-        release {
-               storeFile file('your_key_name.keystore')
-                storePassword ("am-pc-32")
-        }
+        // release {
+        //        storeFile file('your_key_name.keystore')
+        //         storePassword ("am-pc-32")
+        // }
         debug {
             storeFile file('debug.keystore')
             storePassword 'android'
