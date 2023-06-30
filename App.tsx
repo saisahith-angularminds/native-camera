@@ -27,6 +27,8 @@ import {
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
 import { Navigation } from './src/Navigation';
+import { Provider } from 'react-redux';
+import store from './src/Redux/store';
 
 
 
@@ -34,8 +36,10 @@ function App(): JSX.Element {
   
 
   return (<>
-   
+   <Provider store={store}>
+    
       <Navigation/>
+   </Provider>
      
     </>
   );
