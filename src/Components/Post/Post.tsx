@@ -8,6 +8,7 @@ import Fontisto from 'react-native-vector-icons/Fontisto';
 import {Icon, Button} from 'react-native-elements';
 import {useDispatch, useSelector} from 'react-redux';
 import {POST_LIKE, POST_SAVE} from '../../Redux/Posts/types';
+import { setPopupComment } from '../../Redux/Comments/reducer';
 type PostProps = {
   postDetails: any;
   limit: number;
@@ -16,6 +17,8 @@ type PostProps = {
 export const Post = (props: PostProps) => {
   const {postDetails, limit} = props;
   const {user} = useSelector((state: any) => state.user);
+  const {updateId} = useSelector((state: any) => state.comments);
+  
   const dispatch = useDispatch();
   const isLiked: number = postDetails.likes.filter(
     (each: any) => each.id === user._id,
@@ -97,7 +100,9 @@ export const Post = (props: PostProps) => {
                 ''
               )}
             </TouchableOpacity>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() =>
+              dispatch(setPopupComment({updateId:postDetails._id}))
+            }>
               <Icon name="message1" type="antdesign" color="black" size={24} />
             </TouchableOpacity>
           </View>

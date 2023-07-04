@@ -22,6 +22,7 @@ import { useSelector} from 'react-redux';
 import EncryptedStorage from 'react-native-encrypted-storage';
 import axios from 'axios';
 import { Icon, Button } from 'react-native-elements';
+import { Comments } from '../Components/Comments';
 
 export type NavigationProps = {};
 
@@ -127,6 +128,7 @@ export const Navigation = (props: NavigationProps) => {
               setShow(false);
             }}
           />
+          <Comments/>
         </NavigationContainer>
     </>
   );
