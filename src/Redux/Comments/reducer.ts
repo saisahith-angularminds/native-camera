@@ -46,7 +46,7 @@ export const Comment = createSlice({
       ...state,
       listOfComments: [...action.payload.listOfComments],
 
-      updateId: '',
+      
     }),
     setPopupComment: (
       state: CommentStoreInterface,
@@ -55,6 +55,7 @@ export const Comment = createSlice({
       ...state,
       isPopup: !state.isPopup,
       updateId: action.payload.updateId,
+      listOfComments:[]
     }),
   },
 });

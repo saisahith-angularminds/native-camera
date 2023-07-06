@@ -1,3 +1,5 @@
 export const GET_COMMENTS="GET_COMMENTS";
+export const POST_COMMENTS="POST_COMMENTS";
+export const POST_REPLY="POST_REPLY";
 export const COMMENT_LIKE="COMMENT_LIKE";
 export const COMMENT_SAVE="COMMENT_SAVE";

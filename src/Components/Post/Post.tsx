@@ -1,14 +1,12 @@
 import {Card, Text} from '@rneui/base';
 import {Avatar} from '@rneui/themed';
 import React from 'react';
-import {TouchableHighlight, TouchableOpacity, View} from 'react-native';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import AntDesign from 'react-native-vector-icons/AntDesign';
-import Fontisto from 'react-native-vector-icons/Fontisto';
-import {Icon, Button} from 'react-native-elements';
+import { TouchableOpacity, View} from 'react-native';
+import {Icon} from 'react-native-elements';
 import {useDispatch, useSelector} from 'react-redux';
 import {POST_LIKE, POST_SAVE} from '../../Redux/Posts/types';
 import { setPopupComment } from '../../Redux/Comments/reducer';
+import { GET_COMMENTS } from '../../Redux/Comments/types';
 type PostProps = {
   postDetails: any;
   limit: number;
@@ -100,8 +98,11 @@ export const Post = (props: PostProps) => {
                 ''
               )}
             </TouchableOpacity>
-            <TouchableOpacity onPress={() =>
+            <TouchableOpacity onPress={() =>{
+
               dispatch(setPopupComment({updateId:postDetails._id}))
+              dispatch({type:GET_COMMENTS,id:postDetails._id})
+            }
             }>
               <Icon name="message1" type="antdesign" color="black" size={24} />
             </TouchableOpacity>

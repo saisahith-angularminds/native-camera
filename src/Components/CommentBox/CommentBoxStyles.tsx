@@ -1,15 +1,16 @@
 import { StyleSheet } from "react-native";
 
-export const commentStyles = StyleSheet.create({
+export const CommentBoxStyles = StyleSheet.create({
     container: {
       flex: 1,
+     width:"100%",
       justifyContent: 'flex-end',
       alignItems: 'center',
       backgroundColor: 'rgba(0, 0, 0, 0.5)',
     },
     dialog: {
       backgroundColor: '#fff',
-      padding: 10,
+      padding: 16,
       borderRadius: 8,
       width: '100%',
     },
