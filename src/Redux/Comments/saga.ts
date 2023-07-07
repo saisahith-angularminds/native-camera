@@ -7,7 +7,7 @@ import { GET_COMMENTS, COMMENT_LIKE, COMMENT_SAVE, POST_COMMENTS, POST_REPLY } f
 const getAllComments:any=async(postId:string)=>await axios.get(`${baseURL}/comments/post/${postId}`)   
 const commentPost:any=async(postId:string,body:any)=>await axios.post(`${baseURL}/comments/post/${postId}`,body)   
 const replyPost:any=async(postId:string,commentId:string,body:any)=>await axios.post(`${baseURL}/comments/comment/${postId}/${commentId}`,body)   
-const likeComment:any=async(id:string)=>await axios.post(`${baseURL}/comments/comment/like/${id}`)
+const likeComment:any=async(id:string)=>await axios.post(`${baseURL}/comments/like/${id}`)
 // const savaInEncryptedStore:any=async(value:any)=>await EncryptedStorage.setItem("_token",JSON.stringify(value))
 // const clearEncryptedStore:any=async()=>await EncryptedStorage.removeItem("_token")
 
@@ -53,12 +53,11 @@ console.log(resp.data)
       console.log(error);
     }
 }
-function* CommentLike(payload:any):any{
+function* commentLike(payload:any):any{
           try{
             yield call(likeComment,payload.id)
-            // const data=yield select(state=>state)
-            // console.log(data.Comments)
-            const response: any = yield call(getAllComments,payload.limit);
+            
+            const response: any = yield call(getAllComments,payload.limit,payload.id);
             yield put(comments({listOfComments: response.data.results}));
           }catch(error){
             console.log(error)
@@ -67,7 +66,7 @@ function* CommentLike(payload:any):any{
 
 function* commentSaga() {
   yield all([takeLatest(GET_COMMENTS, getComments)]);
-  yield all([takeLatest(COMMENT_LIKE, CommentLike)]);
+  yield all([takeLatest(COMMENT_LIKE, commentLike)]);
   yield all([takeLatest(POST_COMMENTS, postComments)]);
   yield all([takeLatest(POST_REPLY, postReply)]);
 
