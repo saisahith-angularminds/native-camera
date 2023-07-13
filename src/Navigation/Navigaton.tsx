@@ -32,7 +32,7 @@ export const Navigation = (props: NavigationProps) => {
   const [tokened, setTokened] = useState<any>();
   const [show, setShow] = useState<boolean>(false);
   const {user,token}=useSelector((state:any)=>state.user)
-  console.log("store==>",user)
+  // console.log("store==>",user)
   useEffect(() => {
     
     getToken();
@@ -44,7 +44,7 @@ export const Navigation = (props: NavigationProps) => {
       setTokened(tokenData?.token||null);
       axios.defaults.headers.common={"Authorization":tokenData?.token?'Bearer ' + tokenData?.token:null}
       
-      console.log(tokenData?.token);
+      console.log("token===>",tokenData?.token);
       // console.log(new Date(JSON.parse(response || 'null').expires).getTime()-new Date().getTime())
     });
   };

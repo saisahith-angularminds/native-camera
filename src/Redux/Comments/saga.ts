@@ -42,23 +42,22 @@ function* postReply(payload:any):any{
   try { 
      console.log(payload.id,payload.body)
       const resp=yield call(replyPost,payload.id,payload.replyId,payload.body);
-  
-console.log(resp.data)
       const response: any = yield call(getAllComments,payload.id);
-       console.log(response)
+      console.log(response)
       yield put(comments({listOfComments: response.data.comments}));
-  
+      
     } catch (error) {
       console.log("object")
       console.log(error);
     }
-}
-function* commentLike(payload:any):any{
+  }
+  function* commentLike(payload:any):any{
+    const state=yield select()
           try{
             yield call(likeComment,payload.id)
-            
-            const response: any = yield call(getAllComments,payload.limit,payload.id);
-            yield put(comments({listOfComments: response.data.results}));
+            const response: any = yield call(getAllComments,state.comments.updateId);
+
+            yield put(comments({listOfComments: response.data.comments}));
           }catch(error){
             console.log(error)
           }

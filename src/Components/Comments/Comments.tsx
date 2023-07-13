@@ -37,6 +37,7 @@ export const Comments = (props: Props) => {
   const onSetReply=(id:string)=>{
     setReplyId(id)
   }
+  
   return (
     <Modal
       visible={isPopup}

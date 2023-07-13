@@ -2,7 +2,6 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 export interface PostStoreInterface {
   listOfPosts: any;
   isPopup: boolean;
-  updateId: string;
   totalPosts:number;
 }
 export interface PostStoreInterfaceListPost {
@@ -27,7 +26,6 @@ export interface PostStoreInterfaceUpdateId {
 export const PostState: PostStoreInterface = {
   listOfPosts: [],
   isPopup: false,
-  updateId: "",
   totalPosts:100
 };
 // import { Action } from "redux";
@@ -45,7 +43,6 @@ export const Post = createSlice({
       ...state,
       listOfPosts: [...action.payload.listOfPosts],
       totalPosts: action.payload.totalPosts,
-      updateId: "",
     }),
    
   },
