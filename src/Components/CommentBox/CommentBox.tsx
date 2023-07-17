@@ -22,11 +22,11 @@ export const CommentBox = (props: CommentBoxProps) => {
   const isLiked: number = likes.filter(
     (each: any) => each.id === user._id
   ).length;
-  const onReply=()=>{setReplyId(_id),setIsReply(true)}
+  const onReply=()=>{setReplyId(_id)}
   console.log(isLiked)
   return (
    <View>
-    <View style={{display: 'flex', flexDirection: 'row',justifyContent:"space-between"}}>
+    <View style={{display: 'flex', flexDirection: 'row',justifyContent:"space-between",width:"95%",padding:10}}>
       <View style={{display: 'flex', flexDirection: 'row'}}>
 
           <Avatar
@@ -81,13 +81,13 @@ export const CommentBox = (props: CommentBoxProps) => {
             </TouchableOpacity>
           </View>
         </View>
-        <View style={{display:"flex",flexDirection:"row",justifyContent:"space-between",width:"40%",paddingLeft:2}}>
+        <View style={{display:"flex",flexDirection:"row",justifyContent:"space-between",width:"30%",paddingLeft:15,}}>
 
-        {reply.length?isReply?<TouchableOpacity onPress={()=>setIsReply(p=>!p)}><Text>Hide reply's</Text></TouchableOpacity>:<TouchableOpacity onPress={()=>setIsReply(p=>!p)}><Text>See reply's</Text></TouchableOpacity>:<Text style={{display:"none"}}/>}
-        <TouchableOpacity onPress={onReply}><Text>Reply</Text></TouchableOpacity>
+        {reply.length?isReply?<TouchableOpacity  onPress={()=>setIsReply(p=>!p)}><Text style={{fontSize:10,fontWeight:"700",color:"#979797"}}>Hide reply's</Text></TouchableOpacity>:<TouchableOpacity onPress={()=>setIsReply(p=>!p)}><Text style={{fontSize:10,fontWeight:"700",color:"#979797"}}>See reply's</Text></TouchableOpacity>:<Text style={{display:"none"}}/>}
+        <TouchableOpacity  onPress={onReply}><Text style={{fontSize:10,fontWeight:"700",color:"#979797"}}>Reply</Text></TouchableOpacity>
         </View>
        {
-         isReply&&(reply.length?reply.map((each:any)=> <CommentBox comment={each.id} setReplyId={setReplyId}/>):<View><Text>No Reply's</Text></View>)
+         isReply&&(reply.length?<View style={{marginLeft:25,width:"90%"}}>{reply.map((each:any)=> <CommentBox comment={each.id} setReplyId={setReplyId}/>)}</View>:<View><Text>No Reply's</Text></View>)
         }
    </View>
   )

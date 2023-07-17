@@ -23,6 +23,7 @@ import EncryptedStorage from 'react-native-encrypted-storage';
 import axios from 'axios';
 import { Icon, Button } from 'react-native-elements';
 import { Comments } from '../Components/Comments';
+import Animated, { useAnimatedStyle, useSharedValue, withTiming } from 'react-native-reanimated';
 
 export type NavigationProps = {};
 
@@ -32,6 +33,19 @@ export const Navigation = (props: NavigationProps) => {
   const [tokened, setTokened] = useState<any>();
   const [show, setShow] = useState<boolean>(false);
   const {user,token}=useSelector((state:any)=>state.user)
+  const {isPopup,}=useSelector((state:any)=>state.comments)
+
+  const bottomSheet=useSharedValue(-150)
+  const bottomSheetAnimation=useAnimatedStyle(()=>{
+    return{
+      transform:[{translateY:bottomSheet.value}]
+    }
+  })
+
+  useEffect(()=>{
+    if(isPopup)
+    bottomSheet.value=withTiming(0,{duration:5000})
+  },[isPopup])
   // console.log("store==>",user)
   useEffect(() => {
     
@@ -128,7 +142,10 @@ export const Navigation = (props: NavigationProps) => {
               setShow(false);
             }}
           />
+          {/* <Animated.View style={bottomSheetAnimation}> */}
+
           <Comments/>
+          {/* </Animated.View> */}
         </NavigationContainer>
     </>
   );

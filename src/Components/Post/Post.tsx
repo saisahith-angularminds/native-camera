@@ -1,6 +1,6 @@
 import {Card, Text} from '@rneui/base';
 import {Avatar} from '@rneui/themed';
-import React from 'react';
+import React, { useState } from 'react';
 import { TouchableOpacity, View} from 'react-native';
 import {Icon} from 'react-native-elements';
 import {useDispatch, useSelector} from 'react-redux';
@@ -16,7 +16,7 @@ export const Post = (props: PostProps) => {
   const {postDetails, limit} = props;
   const {user} = useSelector((state: any) => state.user);
   const {updateId} = useSelector((state: any) => state.comments);
-  
+const [imageIndex,setImageIndex]=useState(0)
   const dispatch = useDispatch();
   const isLiked: number = postDetails.likes.filter(
     (each: any) => each.id === user._id,
@@ -54,17 +54,34 @@ export const Post = (props: PostProps) => {
           </Text>
         </View>
         {/* <Card.Divider /> */}
-        <Card.Image
-          style={{
-            width: '100%',
-            height: undefined,
-            aspectRatio: 1,
-            resizeMode: 'contain',
-          }}
-          source={{
-            uri: postDetails?.image[0] || '',
-          }}
-        />
+        <View
+          style={{position: 'relative', backgroundColor: 'rgba(0, 0, 0, 0.5)',display:"flex",flexDirection:"row"}}>
+            {postDetails?.image.length>1&&
+          <>{imageIndex>0&&<TouchableOpacity style={{position: 'absolute',zIndex:1,alignSelf:"center"}} onPress={()=>setImageIndex(p=>p-1)}><Icon
+          name="leftcircle"
+          type="antdesign"
+          color="black"
+          size={24}
+          /></TouchableOpacity>}
+          {postDetails?.image.length-1>imageIndex&&<TouchableOpacity style={{position: 'absolute',zIndex:1,alignSelf:"center",right:0}} onPress={()=>setImageIndex(p=>p+1)}><Icon
+          name="rightcircle"
+          type="antdesign"
+          color="black"
+          size={24}
+          /></TouchableOpacity>}</>
+        }
+          <Card.Image
+            style={{
+              width: '100%',
+              height: undefined,
+              aspectRatio: 1,
+              resizeMode: 'contain',
+            }}
+            source={{
+              uri: postDetails?.image[imageIndex] || '',
+            }}
+          />
+        </View>
         <Text style={{marginBottom: 10}}>{postDetails?.caption}</Text>
 
         <View
@@ -98,12 +115,11 @@ export const Post = (props: PostProps) => {
                 ''
               )}
             </TouchableOpacity>
-            <TouchableOpacity onPress={() =>{
-
-              dispatch(setPopupComment({updateId:postDetails._id}))
-              dispatch({type:GET_COMMENTS,id:postDetails._id})
-            }
-            }>
+            <TouchableOpacity
+              onPress={() => {
+                dispatch(setPopupComment({updateId: postDetails._id}));
+                dispatch({type: GET_COMMENTS, id: postDetails._id});
+              }}>
               <Icon name="message1" type="antdesign" color="black" size={24} />
             </TouchableOpacity>
           </View>
