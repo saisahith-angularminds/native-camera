@@ -1,12 +1,13 @@
 import {Card, Text} from '@rneui/base';
 import {Avatar} from '@rneui/themed';
-import React, { useState } from 'react';
-import { TouchableOpacity, View} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {TouchableOpacity, View} from 'react-native';
 import {Icon} from 'react-native-elements';
 import {useDispatch, useSelector} from 'react-redux';
 import {POST_LIKE, POST_SAVE} from '../../Redux/Posts/types';
-import { setPopupComment } from '../../Redux/Comments/reducer';
-import { GET_COMMENTS } from '../../Redux/Comments/types';
+import {setPopupComment} from '../../Redux/Comments/reducer';
+import {GET_COMMENTS} from '../../Redux/Comments/types';
+import Animated, {useAnimatedStyle, useSharedValue, withRepeat, withSequence, withSpring, withTiming} from 'react-native-reanimated';
 type PostProps = {
   postDetails: any;
   limit: number;
@@ -16,7 +17,7 @@ export const Post = (props: PostProps) => {
   const {postDetails, limit} = props;
   const {user} = useSelector((state: any) => state.user);
   const {updateId} = useSelector((state: any) => state.comments);
-const [imageIndex,setImageIndex]=useState(0)
+  const [imageIndex, setImageIndex] = useState(0);
   const dispatch = useDispatch();
   const isLiked: number = postDetails.likes.filter(
     (each: any) => each.id === user._id,
@@ -24,8 +25,22 @@ const [imageIndex,setImageIndex]=useState(0)
   const isSaved: number = postDetails.saved.filter(
     (each: any) => each.id === user._id,
   ).length;
+  const progress = useSharedValue(0);
+  const scale = useSharedValue(2);
+  const reactStyleReanimated = useAnimatedStyle(() => {
+    return {
+      opacity:progress.value,
+      transform:[{scale:scale.value}]
+    };
+  });
+  useEffect(()=>{
+    progress.value=withTiming(1)
+    scale.value=withSpring(1)
+  },[limit])
   return (
-    <View>
+
+    
+    <Animated.View style={reactStyleReanimated}>
       <Card containerStyle={{width: '100%', margin: 0, padding: 0}}>
         <View style={{display: 'flex', flexDirection: 'row'}}>
           <Avatar
@@ -55,21 +70,45 @@ const [imageIndex,setImageIndex]=useState(0)
         </View>
         {/* <Card.Divider /> */}
         <View
-          style={{position: 'relative', backgroundColor: 'rgba(0, 0, 0, 0.5)',display:"flex",flexDirection:"row"}}>
-            {postDetails?.image.length>1&&
-          <>{imageIndex>0&&<TouchableOpacity style={{position: 'absolute',zIndex:1,alignSelf:"center"}} onPress={()=>setImageIndex(p=>p-1)}><Icon
-          name="leftcircle"
-          type="antdesign"
-          color="black"
-          size={24}
-          /></TouchableOpacity>}
-          {postDetails?.image.length-1>imageIndex&&<TouchableOpacity style={{position: 'absolute',zIndex:1,alignSelf:"center",right:0}} onPress={()=>setImageIndex(p=>p+1)}><Icon
-          name="rightcircle"
-          type="antdesign"
-          color="black"
-          size={24}
-          /></TouchableOpacity>}</>
-        }
+          style={{
+            position: 'relative',
+            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            display: 'flex',
+            flexDirection: 'row',
+          }}>
+          {postDetails?.image.length > 1 && (
+            <>
+              {imageIndex > 0 && (
+                <TouchableOpacity
+                  style={{position: 'absolute', zIndex: 1, alignSelf: 'center'}}
+                  onPress={() => setImageIndex(p => p - 1)}>
+                  <Icon
+                    name="leftcircle"
+                    type="antdesign"
+                    color="black"
+                    size={24}
+                  />
+                </TouchableOpacity>
+              )}
+              {postDetails?.image.length - 1 > imageIndex && (
+                <TouchableOpacity
+                  style={{
+                    position: 'absolute',
+                    zIndex: 1,
+                    alignSelf: 'center',
+                    right: 0,
+                  }}
+                  onPress={() => setImageIndex(p => p + 1)}>
+                  <Icon
+                    name="rightcircle"
+                    type="antdesign"
+                    color="black"
+                    size={24}
+                  />
+                </TouchableOpacity>
+              )}
+            </>
+          )}
           <Card.Image
             style={{
               width: '100%',
@@ -136,6 +175,6 @@ const [imageIndex,setImageIndex]=useState(0)
           </TouchableOpacity>
         </View>
       </Card>
-    </View>
+    </Animated.View>
   );
 };
